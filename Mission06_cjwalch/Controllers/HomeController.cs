@@ -12,9 +12,9 @@ namespace DateMe.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private DateApplicationContext blahContext { get; set; }
+        private MovieFormContext blahContext { get; set; }
         // Constructor
-        public HomeController(ILogger<HomeController> logger, DateApplicationContext someName)
+        public HomeController(ILogger<HomeController> logger, MovieFormContext someName)
         {
             _logger = logger;
             blahContext = someName;
@@ -30,12 +30,12 @@ namespace DateMe.Controllers
         }
         //we added this
         [HttpGet]
-        public IActionResult DatingApplication() // GET
+        public IActionResult MovieForm() // GET
         {
             return View();
         }
         [HttpPost]
-        public IActionResult DatingApplication(ApplicationResponse ar) // POST
+        public IActionResult MovieForm(ApplicationResponse ar) // POST
         {
             blahContext.Add(ar);
             blahContext.SaveChanges(); 

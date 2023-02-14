@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Mission06_cjwalch.Migrations
 {
-    [DbContext(typeof(DateApplicationContext))]
+    [DbContext(typeof(MovieFormContext))]
     [Migration("20230214035857_Initial")]
     partial class Initial
     {

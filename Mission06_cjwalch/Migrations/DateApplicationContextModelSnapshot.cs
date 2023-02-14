@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Mission06_cjwalch.Migrations
 {
-    [DbContext(typeof(DateApplicationContext))]
+    [DbContext(typeof(MovieFormContext))]
     partial class DateApplicationContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

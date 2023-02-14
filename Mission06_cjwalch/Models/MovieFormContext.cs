@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DateMe.Models
 {
-    public class DateApplicationContext : DbContext
+    public class MovieFormContext : DbContext
     {
         // constructor
-        public DateApplicationContext(DbContextOptions<DateApplicationContext> options) : base(options)
+        public MovieFormContext(DbContextOptions<MovieFormContext> options) : base(options)
         {
             // leave blank for now
         }

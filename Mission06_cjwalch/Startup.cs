@@ -27,7 +27,7 @@ namespace DateMe
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<DateApplicationContext> (options => 
+            services.AddDbContext<MovieFormContext> (options => 
             {
                 options.UseSqlite(Configuration["ConnectionStrings:BlahConnection"]);
             });
