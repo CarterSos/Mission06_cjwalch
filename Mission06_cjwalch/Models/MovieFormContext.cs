@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Mission06_cjwalch.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,26 @@ namespace DateMe.Models
             // leave blank for now
         }
         public DbSet<ApplicationResponse> Responses { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
+        // Seed Data
         protected override void OnModelCreating(ModelBuilder mb)
         {
+
+            mb.Entity<Category>().HasData(
+                new Category { CategoryId = 1, CategoryName = "Action" },
+                new Category { CategoryId = 2, CategoryName = "Adventure" },
+                new Category { CategoryId = 3, CategoryName = "Drama" },
+                new Category { CategoryId = 4, CategoryName = "Comedy" },
+                new Category { CategoryId = 5, CategoryName = "Romance" }
+                );
+
+
             mb.Entity<ApplicationResponse>().HasData(
                 new ApplicationResponse
                 {
                     Title = "Avengers: Endgame",
-                    Category = "Action",
+                    CategoryId = 1,
                     Year = 2019,
                     Director = "Russo Brothers",
                     Rating = "PG-13",
@@ -30,7 +43,7 @@ namespace DateMe.Models
                 new ApplicationResponse
                 {
                     Title = "Spiderman: Into the Spider-verse",
-                    Category = "Action",
+                    CategoryId = 1,
                     Year = 2018,
                     Director = "Bob Persichetti",
                     Rating = "PG"
@@ -38,7 +51,7 @@ namespace DateMe.Models
                 new ApplicationResponse
                 {
                     Title = "The Count of Monte Cristo",
-                    Category = "Adventure",
+                    CategoryId = 2,
                     Year = 2002,
                     Director = "Kevin Reynolds",
                     Rating = "PG-13",

@@ -1,5 +1,6 @@
 ﻿using DateMe.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,12 @@ namespace DateMe.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private MovieFormContext blahContext { get; set; }
+        private MovieFormContext movieContext { get; set; }
         // Constructor
         public HomeController(ILogger<HomeController> logger, MovieFormContext someName)
         {
             _logger = logger;
-            blahContext = someName;
+            movieContext = someName;
         }
 
         public IActionResult Index()
@@ -32,14 +33,39 @@ namespace DateMe.Controllers
         [HttpGet]
         public IActionResult MovieForm() // GET
         {
+            ViewBag.Categories = movieContext.Categories.ToList(); // allows to access both tables
+
             return View();
         }
         [HttpPost]
         public IActionResult MovieForm(ApplicationResponse ar) // POST
         {
-            blahContext.Add(ar);
-            blahContext.SaveChanges(); 
-            return View("Confirmation", ar);
+
+            if (ModelState.IsValid)
+            {
+                movieContext.Add(ar);
+                movieContext.SaveChanges();
+                return View("Confirmation", ar);
+            }
+            else // if invalid
+            {
+                ViewBag.Categories = movieContext.Categories.ToList();
+
+                return View();
+            }
+            
+        }
+
+        [HttpGet]
+        public IActionResult MovieList() 
+        {
+            var movies = movieContext.Responses
+                .Include(x => x.Category)
+                //.Where(c => c.CreeperStalker == false)
+                //.OrderBy(x => x.LastName)
+                .ToList();
+
+            return View(movies);
         }
 
         public IActionResult Privacy()
@@ -51,6 +77,41 @@ namespace DateMe.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        [HttpGet]
+        public IActionResult Edit(string title)
+        {
+
+            ViewBag.Categories = movieContext.Categories.ToList();
+
+            var movie = movieContext.Responses.Single(x => x.Title == title);
+
+            return View("MovieForm", movie);
+        }
+        [HttpPost]
+        public IActionResult Edit(ApplicationResponse blah)
+        {
+            movieContext.Update(blah);
+            movieContext.SaveChanges();
+
+            return RedirectToAction("MovieList");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(string title)
+        {
+            var movie = movieContext.Responses.Single(x => x.Title == title);
+
+            return View(movie);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(ApplicationResponse ar)
+        {
+            movieContext.Responses.Remove(ar);
+            movieContext.SaveChanges();
+
+            return RedirectToAction("MovieList");
         }
     }
 }
